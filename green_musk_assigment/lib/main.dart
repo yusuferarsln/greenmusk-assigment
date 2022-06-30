@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      theme: ThemeData(fontFamily: 'Poppins-Regular'),
       home: Scaffold(body: BuildProfilePage()),
     );
   }

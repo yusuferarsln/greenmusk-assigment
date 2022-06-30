@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:green_musk_assigment/ui/signup/widgets/inputchipmodel.dart';
+import 'package:green_musk_assigment/ui/signup/model/inputchipmodel.dart';
 
 class SkillController extends ChangeNotifier {
   final List<ChipModel> chipList = [];
