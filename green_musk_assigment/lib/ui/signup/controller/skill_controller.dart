@@ -10,24 +10,35 @@ class SkillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void skillButtonWidget(double width, double height, String buttonText) {
-    skillButtons.add(skillButton(width, height, buttonText));
+  void skillButtonWidget(
+      double width, double height, String buttonText, String title) {
+    skillButtons.add(skillButton(width, height, buttonText, title));
     notifyListeners();
   }
 
-  OutlinedButton skillButton(double width, double height, String buttonText) {
+  OutlinedButton skillButton(
+      double width, double height, String buttonText, String title) {
     return OutlinedButton(
         style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blue),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ))),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ))),
         onPressed: () {},
-        child: Container(
-          width: width * 0.2,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Icon(Icons.add_circle_rounded), Text(buttonText)]),
+        child: SizedBox(
+          width: width * (title.length / 20),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              buttonText + title,
+              style: TextStyle(color: Colors.white),
+            ),
+            Icon(
+              Icons.highlight_remove_rounded,
+              color: Colors.white,
+            )
+          ]),
         ));
   }
 }

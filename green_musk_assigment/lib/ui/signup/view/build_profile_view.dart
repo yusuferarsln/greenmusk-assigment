@@ -81,23 +81,11 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
                 style: TextStyle(fontWeight: FontWeight.w200),
               ),
             ]),
-            Flexible(
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                runSpacing: 20,
-                spacing: 10,
+            skillButton(width, height, skillController, watch),
+            Wrap(
                 direction: Axis.horizontal,
-                children: [
-                  skillButton(width, height, skillController, watch),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: watch.skillButtons.length,
-                      itemBuilder: (context, index) {
-                        return watch.skillButtons[index];
-                      })
-                ],
-              ),
-            ),
+                alignment: WrapAlignment.start,
+                children: watch.skillButtons),
             Align(
               alignment: Alignment.bottomLeft,
               child: Text('Language'),
@@ -146,8 +134,12 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
     );
   }
 
-  OutlinedButton skillButton(double width, double height,
-      TextEditingController skillController, SkillController controller) {
+  OutlinedButton skillButton(
+    double width,
+    double height,
+    TextEditingController skillController,
+    SkillController controller,
+  ) {
     return OutlinedButton(
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -155,7 +147,13 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ))),
         onPressed: () {
-          addSkillPopUp(context, width, height, skillController, controller);
+          addSkillPopUp(
+            context,
+            width,
+            height,
+            skillController,
+            controller,
+          );
         },
         child: SizedBox(
           width: width * 0.2,
@@ -165,31 +163,224 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
         ));
   }
 
-  addSkillPopUp(BuildContext context, double height, double width,
-      TextEditingController skillController, SkillController controller) {
+  addSkillPopUp(
+    BuildContext context,
+    double width,
+    double height,
+    TextEditingController skillController,
+    SkillController controller,
+  ) {
+    List<bool> selectedLevel = List.generate(5, (index) => false);
+
     showDialog(
         context: context,
         builder: (builder) {
-          return AlertDialog(
-            content: Column(
-              children: [
-                TextField(
-                  controller: skillController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter your linkedin profile'),
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Container(
+                height: height * 0.3,
+                width: width * 0.7,
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: skillController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your linkedin profile'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedLevel[0] = !selectedLevel[0];
+                                  if (selectedLevel[0] == true) {
+                                  } else {
+                                    selectedLevel[0] = false;
+                                    selectedLevel[1] = false;
+                                    selectedLevel[2] = false;
+                                    selectedLevel[3] = false;
+                                    selectedLevel[4] = false;
+                                  }
+                                });
+                              },
+                              child: Container(
+                                height: height * 0.03,
+                                width: width * 0.09,
+                                decoration: BoxDecoration(
+                                    color: selectedLevel[0] == false
+                                        ? Colors.grey
+                                        : Colors.blue,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(5),
+                                        topLeft: Radius.circular(5))),
+                              )),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedLevel[1] = !selectedLevel[1];
+                                if (selectedLevel[1] == true) {
+                                  selectedLevel[0] = true;
+                                } else {
+                                  selectedLevel[0] = false;
+                                  selectedLevel[1] = false;
+                                  selectedLevel[2] = false;
+                                  selectedLevel[3] = false;
+                                  selectedLevel[4] = false;
+                                }
+                              });
+                            },
+                            child: Container(
+                              height: height * 0.03,
+                              width: width * 0.09,
+                              color: selectedLevel[1] == false
+                                  ? Colors.grey
+                                  : Colors.blue,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedLevel[2] = !selectedLevel[2];
+                                if (selectedLevel[2] == true) {
+                                  selectedLevel[0] = true;
+                                  selectedLevel[1] = true;
+                                } else {
+                                  selectedLevel[0] = false;
+                                  selectedLevel[1] = false;
+                                  selectedLevel[2] = false;
+                                  selectedLevel[3] = false;
+                                  selectedLevel[4] = false;
+                                }
+                              });
+                            },
+                            child: Container(
+                              height: height * 0.03,
+                              width: width * 0.09,
+                              color: selectedLevel[2] == false
+                                  ? Colors.grey
+                                  : Colors.blue,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedLevel[3] = !selectedLevel[3];
+                                if (selectedLevel[3] == true) {
+                                  selectedLevel[0] = true;
+                                  selectedLevel[1] = true;
+                                  selectedLevel[2] = true;
+                                } else {
+                                  selectedLevel[0] = false;
+                                  selectedLevel[1] = false;
+                                  selectedLevel[2] = false;
+                                  selectedLevel[3] = false;
+                                  selectedLevel[4] = false;
+                                }
+                              });
+                            },
+                            child: Container(
+                              height: height * 0.03,
+                              width: width * 0.09,
+                              color: selectedLevel[3] == false
+                                  ? Colors.grey
+                                  : Colors.blue,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedLevel[4] = !selectedLevel[4];
+                                if (selectedLevel[4] == true) {
+                                  selectedLevel[0] = true;
+                                  selectedLevel[1] = true;
+                                  selectedLevel[2] = true;
+                                  selectedLevel[3] = true;
+                                } else {
+                                  selectedLevel[0] = false;
+                                  selectedLevel[1] = false;
+                                  selectedLevel[2] = false;
+                                  selectedLevel[3] = false;
+                                }
+                              });
+                            },
+                            child: Container(
+                              height: height * 0.03,
+                              width: width * 0.09,
+                              decoration: BoxDecoration(
+                                  color: selectedLevel[4] == false
+                                      ? Colors.grey
+                                      : Colors.blue,
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(5),
+                                      topRight: Radius.circular(5))),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: width * 0.4,
+                        height: height * 0.06,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                var map = Map();
+
+                                selectedLevel.forEach((element) {
+                                  if (!map.containsKey(element)) {
+                                    map[element] = 1;
+                                  } else {
+                                    map[element] += 1;
+                                  }
+                                });
+                                if (map[true] == 5) {
+                                  controller.skillButtonWidget(width, height,
+                                      skillController.text, 'Expert');
+                                } else if (map[true] == 4) {
+                                  controller.skillButtonWidget(width, height,
+                                      skillController.text, 'Proficient');
+                                } else if (map[true] == 3) {
+                                  controller.skillButtonWidget(width, height,
+                                      skillController.text, 'Compotent');
+                                } else if (map[true] == 2) {
+                                  controller.skillButtonWidget(width, height,
+                                      skillController.text, 'Beginner');
+                                } else {
+                                  controller.skillButtonWidget(width, height,
+                                      skillController.text, 'Novice');
+                                }
+                              });
+                            },
+                            child: Text('Add')),
+                      ),
+                    )
+                  ],
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.skillButtonWidget(
-                            width, height, skillController.text);
-                      });
-                    },
-                    child: Text('Add'))
-              ],
-            ),
-          );
+              ),
+            );
+          });
         });
   }
 }
