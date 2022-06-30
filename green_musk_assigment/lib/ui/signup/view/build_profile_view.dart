@@ -10,15 +10,21 @@ class BuildProfilePage extends ConsumerStatefulWidget {
       _BuildProfilePageState();
 }
 
-final contoller = ChangeNotifierProvider((ref) => SkillController());
+final controller = ChangeNotifierProvider((ref) => SkillController());
 
 class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
-  TextEditingController skillContoller = TextEditingController();
+  TextEditingController skillController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    var watch = ref.watch(controller);
     return SafeArea(
       bottom: false,
       child: Scaffold(
@@ -82,7 +88,13 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
                 spacing: 10,
                 direction: Axis.horizontal,
                 children: [
-                  skillButton(width, height, skillContoller),
+                  skillButton(width, height, skillController, watch),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: watch.skillButtons.length,
+                      itemBuilder: (context, index) {
+                        return watch.skillButtons[index];
+                      })
                 ],
               ),
             ),
@@ -114,7 +126,7 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
                         ),
                       ])),
             ),
-            Container(
+            SizedBox(
               height: height * 0.06,
               width: width * 1,
               child: ElevatedButton(
@@ -134,8 +146,8 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
     );
   }
 
-  OutlinedButton skillButton(
-      double width, double height, TextEditingController skillController) {
+  OutlinedButton skillButton(double width, double height,
+      TextEditingController skillController, SkillController controller) {
     return OutlinedButton(
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -143,9 +155,9 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ))),
         onPressed: () {
-          addSkillPopUp(context, height, skillController);
+          addSkillPopUp(context, width, height, skillController, controller);
         },
-        child: Container(
+        child: SizedBox(
           width: width * 0.2,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,28 +165,30 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
         ));
   }
 
-  addSkillPopUp(BuildContext context, double height,
-      TextEditingController skillController) {
+  addSkillPopUp(BuildContext context, double height, double width,
+      TextEditingController skillController, SkillController controller) {
     showDialog(
         context: context,
         builder: (builder) {
           return AlertDialog(
-            content: Container(
-                width: double.maxFinite,
-                height: height * 0.2,
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: skillController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter your linkedin profile'),
-                      ),
-                      ElevatedButton(onPressed: () {}, child: Text('Add'))
-                    ],
-                  ),
-                )),
+            content: Column(
+              children: [
+                TextField(
+                  controller: skillController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your linkedin profile'),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.skillButtonWidget(
+                            width, height, skillController.text);
+                      });
+                    },
+                    child: Text('Add'))
+              ],
+            ),
           );
         });
   }
