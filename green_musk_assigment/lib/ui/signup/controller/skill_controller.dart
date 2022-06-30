@@ -1,44 +1,33 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:green_musk_assigment/ui/signup/widgets/inputchipmodel.dart';
 
 class SkillController extends ChangeNotifier {
-  List<String> skills = [];
-  List<Widget> skillButtons = [];
-
-  void addSkill(String skill) {
-    skills.add(skill);
+  final List<ChipModel> chipList = [];
+  final List<ChipModel> languageChipList = [];
+  String? title;
+  void adTitle(String newTitle) {
+    title = newTitle;
     notifyListeners();
   }
 
-  void skillButtonWidget(
-      double width, double height, String buttonText, String title) {
-    skillButtons.add(skillButton(width, height, buttonText, title));
+  void chipAdd(String id, String name, String title) {
+    chipList.add(ChipModel(id: id, name: name, title: title));
     notifyListeners();
   }
 
-  OutlinedButton skillButton(
-      double width, double height, String buttonText, String title) {
-    return OutlinedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blue),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ))),
-        onPressed: () {},
-        child: SizedBox(
-          width: width * (title.length / 20),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              buttonText + title,
-              style: TextStyle(color: Colors.white),
-            ),
-            Icon(
-              Icons.highlight_remove_rounded,
-              color: Colors.white,
-            )
-          ]),
-        ));
+  void deleteChips(String id) {
+    chipList.removeWhere((element) => element.id == id);
+  }
+
+  void languageChipAdd(String id, String name, String title) {
+    languageChipList.add(ChipModel(id: id, name: name, title: title));
+    notifyListeners();
+  }
+
+  void languageDeleteChips(String id) {
+    languageChipList.removeWhere((element) => element.id == id);
   }
 }
