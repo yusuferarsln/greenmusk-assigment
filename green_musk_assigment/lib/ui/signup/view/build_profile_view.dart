@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:green_musk_assigment/ui/signup/constants/colors.dart';
 import 'package:green_musk_assigment/ui/signup/controller/skill_controller.dart';
 import 'package:green_musk_assigment/ui/signup/model/inputchipmodel.dart';
+import 'package:green_musk_assigment/ui/signup/widgets/header_widget.dart';
 
 class BuildProfilePage extends ConsumerStatefulWidget {
   const BuildProfilePage({Key? key}) : super(key: key);
@@ -32,217 +33,187 @@ class _BuildProfilePageState extends ConsumerState<BuildProfilePage> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Build Your',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: headOne,
-                          )),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Profile',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: headTwo),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                    height: height * 0.17,
-                    width: width * 0.17,
-                    child: Image.asset("images/cube.png")),
-              ],
-            ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Enter your skills to improve match results.',
-                  style:
-                      TextStyle(color: headOne.withOpacity(0.7), fontSize: 14),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Your linkedin URl',
-                  style: TextStyle(
-                    color: headTwo,
-                    fontSize: 14,
-                  ),
-                )),
-            SizedBox(
-              height: 5,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                hintText: 'Enter your linkedin profile',
+          child: SingleChildScrollView(
+            child: Column(children: [
+              headerWidget(height: height, width: width),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Enter your skills to improve match results.',
+                    style: TextStyle(
+                        color: headOne.withOpacity(0.7), fontSize: 14),
+                  )),
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.info,
-                  color: backLink,
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Your linkedin URl',
+                    style: TextStyle(
+                      color: headTwo,
+                      fontSize: 14,
+                    ),
+                  )),
+              SizedBox(
+                height: 5,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  hintText: 'Enter your linkedin profile',
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.info,
+                    color: backLink,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Click here for your linkedIn profile',
+                    style: TextStyle(
+                        color: backLink,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Skills',
+                    style: TextStyle(fontSize: 14),
+                  ),
                 ),
                 SizedBox(
                   width: 5,
                 ),
                 Text(
-                  'Click here for your linkedIn profile',
-                  style: TextStyle(
-                      color: backLink,
-                      decoration: TextDecoration.underline,
-                      fontSize: 14),
+                  '(Ex:Java, businness strategy)',
+                  style: TextStyle(fontWeight: FontWeight.w200),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              ]),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 10,
+                      children: watch.chipList
+                          .map((chip) => Chip(
+                                label: Text(
+                                  chip.name + ' - ' + chip.title,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: backLink,
+                                onDeleted: () {
+                                  setState(() {
+                                    watch.deleteChips(chip.id);
+                                  });
+                                },
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                  watch.chipList.isEmpty
+                      ? Align(
+                          alignment: Alignment.bottomLeft,
+                          child: skillButton(
+                            'First Skill',
+                            width,
+                            height,
+                            skillController,
+                            watch,
+                          ))
+                      : Align(
+                          alignment: Alignment.bottomLeft,
+                          child: skillButton(
+                            'Add Skill',
+                            width,
+                            height,
+                            skillController,
+                            watch,
+                          ))
+                ],
+              ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Skills',
-                  style: TextStyle(fontSize: 14),
+                child: Text('Language'),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: 10,
+                  children: watch.languageChipList
+                      .map((chip) => Chip(
+                            label: Text(
+                              chip.name + ' - ' + chip.title,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: backLink,
+                            onDeleted: () {
+                              setState(() {
+                                watch.languageDeleteChips(chip.id);
+                              });
+                            },
+                          ))
+                      .toList(),
                 ),
+              ),
+              watch.languageChipList.isEmpty
+                  ? Align(
+                      alignment: Alignment.bottomLeft,
+                      child: languageButton(
+                        'First Language',
+                        width,
+                        height,
+                        skillController,
+                        watch,
+                      ))
+                  : Align(
+                      alignment: Alignment.bottomLeft,
+                      child: languageButton(
+                        'Add Language',
+                        width,
+                        height,
+                        skillController,
+                        watch,
+                      )),
+              SizedBox(
+                height: 20,
               ),
               SizedBox(
-                width: 5,
-              ),
-              Text(
-                '(Ex:Java, businness strategy)',
-                style: TextStyle(fontWeight: FontWeight.w200),
-              ),
-            ]),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    spacing: 10,
-                    children: watch.chipList
-                        .map((chip) => Chip(
-                              label: Text(
-                                chip.name + ' - ' + chip.title,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: backLink,
-                              onDeleted: () {
-                                setState(() {
-                                  watch.deleteChips(chip.id);
-                                });
-                              },
-                            ))
-                        .toList(),
+                height: height * 0.06,
+                width: width * 1,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Get Started',
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.grey),
                   ),
                 ),
-                watch.chipList.isEmpty
-                    ? Align(
-                        alignment: Alignment.bottomLeft,
-                        child: skillButton(
-                          'First Skill',
-                          width,
-                          height,
-                          skillController,
-                          watch,
-                        ))
-                    : Align(
-                        alignment: Alignment.bottomLeft,
-                        child: skillButton(
-                          'Add Skill',
-                          width,
-                          height,
-                          skillController,
-                          watch,
-                        ))
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Text('Language'),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                spacing: 10,
-                children: watch.languageChipList
-                    .map((chip) => Chip(
-                          label: Text(
-                            chip.name + ' - ' + chip.title,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor: backLink,
-                          onDeleted: () {
-                            setState(() {
-                              watch.languageDeleteChips(chip.id);
-                            });
-                          },
-                        ))
-                    .toList(),
-              ),
-            ),
-            watch.languageChipList.isEmpty
-                ? Align(
-                    alignment: Alignment.bottomLeft,
-                    child: languageButton(
-                      'First Language',
-                      width,
-                      height,
-                      skillController,
-                      watch,
-                    ))
-                : Align(
-                    alignment: Alignment.bottomLeft,
-                    child: languageButton(
-                      'Add Language',
-                      width,
-                      height,
-                      skillController,
-                      watch,
-                    )),
-            SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: height * 0.06,
-              width: width * 1,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 22),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.grey),
-                ),
-              ),
-            )
-          ]),
+              )
+            ]),
+          ),
         ),
       ),
     );
