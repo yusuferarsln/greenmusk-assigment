@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:green_musk_assigment/ui/signup/constants/colors.dart';
+import 'package:green_musk_assigment/core/constants/colors.dart';
 
 class headerWidget extends StatelessWidget {
   const headerWidget({

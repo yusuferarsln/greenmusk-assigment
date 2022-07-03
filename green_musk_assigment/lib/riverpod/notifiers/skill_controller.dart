@@ -1,13 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:green_musk_assigment/ui/signup/model/inputchipmodel.dart';
+import 'package:green_musk_assigment/core/models/inputchipmodel.dart';
 
 class SkillController extends ChangeNotifier {
   final List<ChipModel> chipList = [];
   final List<ChipModel> languageChipList = [];
   String? title;
+
   void adTitle(String newTitle) {
     title = newTitle;
     notifyListeners();
@@ -20,6 +19,7 @@ class SkillController extends ChangeNotifier {
 
   void deleteChips(String id) {
     chipList.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
 
   void languageChipAdd(String id, String name, String title) {
@@ -29,5 +29,6 @@ class SkillController extends ChangeNotifier {
 
   void languageDeleteChips(String id) {
     languageChipList.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
 }

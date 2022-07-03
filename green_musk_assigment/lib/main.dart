@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:green_musk_assigment/ui/signup/view/build_profile_view.dart';
+import 'package:green_musk_assigment/ui/pages/on_board.dart';
 
 void main() => runApp(ProviderScope(child: MyApp()));
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       theme: ThemeData(fontFamily: 'Poppins-Regular'),
-      home: Scaffold(body: BuildProfilePage()),
+      home: Scaffold(body: OnBoardView()),
     );
   }
 }
