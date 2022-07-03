@@ -39,79 +39,65 @@ class _OnBoardViewState extends State<OnBoardView> {
               onBoardPage3(width, height),
             ]),
         bottomSheet: Container(
-          color: Colors.transparent,
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () {
-                  controller.jumpToPage(2);
-                },
-                child: Text(
-                  'Skip',
-                  style: TextStyle(color: backLink, fontSize: 18),
-                ),
-              ),
-              const SizedBox(
-                width: 50,
-              ),
-              isLastPage == true
-                  ? Container(
-                      height: 46,
-                      width: 150,
-                      decoration: const BoxDecoration(),
-                      child: ElevatedButton(
+            color: Colors.transparent,
+            height: 100,
+            child: isLastPage == false
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BuildProfile()),
-                          );
+                          controller.jumpToPage(2);
                         },
-                        child: const Text(
-                          'Get Started',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(backLink),
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(color: backLink, fontSize: 18),
                         ),
                       ),
-                    )
-                  : Container(
-                      height: 46,
-                      width: 150,
-                      decoration: const BoxDecoration(),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
-                        },
-                        child: const Text(
-                          'Next',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(backLink),
-                        ),
+                      const SizedBox(
+                        width: 50,
                       ),
-                    )
-            ],
-          ),
-        ),
+                      Container(
+                        height: 46,
+                        width: 150,
+                        decoration: const BoxDecoration(),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all(backLink),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Continue as guest',
+                              style: TextStyle(
+                                color: backLink,
+                                fontSize: 14,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ))
+                      ],
+                    ),
+                  )),
       ),
     );
   }
@@ -178,6 +164,46 @@ class _OnBoardViewState extends State<OnBoardView> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 14, fontWeight: FontWeight.w400, color: headOne),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          height: 46,
+          width: width * 0.9,
+          decoration: const BoxDecoration(),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BuildProfile()),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("images/linkedin_logo.png"),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                const Text(
+                  'Get started with LinkedIN',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
             ),
           ),
         )
