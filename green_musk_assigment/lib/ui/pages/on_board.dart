@@ -168,7 +168,7 @@ class _OnBoardViewState extends State<OnBoardView> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 40,
         ),
         Container(
           height: 46,

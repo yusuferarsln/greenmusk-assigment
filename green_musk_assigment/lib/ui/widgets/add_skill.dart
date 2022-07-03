@@ -350,6 +350,7 @@ addSkillPopUp(
                                       }
                                       skillController.text = "";
                                     }
+                                    Navigator.pop(context);
                                   });
                                 },
                                 child: Text(
