@@ -62,7 +62,11 @@ class _OnBoardViewState extends State<OnBoardView> {
                         width: 150,
                         decoration: const BoxDecoration(),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.nextPage(
+                                duration: Duration(milliseconds: 400),
+                                curve: Curves.easeIn);
+                          },
                           child: const Text(
                             'Next',
                             style: TextStyle(fontSize: 18),
